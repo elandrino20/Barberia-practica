@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const mongoose = require('mongoose');
 
 // Evitar advertencias de versiones nuevas de Mongoose
