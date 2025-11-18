@@ -6,7 +6,8 @@ require('./database');
 const app = express();
 
 // Puerto para Render
-app.set("port", process.env.PORT || 4000);
+const PORT = process.env.PORT || 4000;
+app.set("port", PORT);
 
 // Middleware
 app.use(morgan('dev'));
@@ -22,17 +23,8 @@ app.get("/", (req, res) => {
 // Rutas
 app.use('/api/citas', require('./src/routers/cita.route'));
 
-// ------------------------
 // 🔥 Servidor
-// ------------------------
-app.listen(app.get("port"), () => {
+app.listen(app.get("port"), "0.0.0.0", () => {
   console.log("Servidor corriendo en el puerto", app.get("port"));
 });
 
-// Tus rutas reales
-app.use('/api/citas', require('./src/routers/cita.route'));
-
-// Evitar doble app.listen ❗
-app.listen(app.get("port"), () => {
-  console.log("Servidor corriendo en el puerto:", app.get("port"));
-});
