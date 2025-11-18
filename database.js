@@ -1,28 +1,21 @@
-require("dotenv").config();
-
+// database.js
 const mongoose = require('mongoose');
 
-// Evitar advertencias de versiones nuevas de Mongoose
-mongoose.set('strictQuery', false);
-
-// 🔥 Leer la cadena desde Render o .env
 const URI = process.env.MONGO_URI;
 
-const conn = async () => {
+const connectDB = async () => {
     try {
         if (!URI) {
             throw new Error("❌ No se encontró la variable MONGO_URI. Asegúrate de configurar Render.");
         }
 
-        const db = await mongoose.connect(URI, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
-
+        const db = await mongoose.connect(URI);
         console.log("✅ Conectado a MongoDB Atlas:", db.connection.name);
     } catch (error) {
-        console.log("❌ Error al conectar la base de datos:", error.message);
+        console.error("❌ Error al conectar la base de datos:", error.message);
+        process.exit(1); // Detiene la app si no se puede conectar a la DB
     }
 };
 
-module.exports = conn();
+module.exports = connectDB;
+
